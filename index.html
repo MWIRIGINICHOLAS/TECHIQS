@@ -145,8 +145,10 @@
     </div>
   </section>
   <section class="testimonials">
-    <h2>Client Testimonials</h2>
-    <div class="testimonial-container">
+  <h2>Client Testimonials</h2>
+  <br>
+  <div class="testimonial-container">
+    <div class="slider">
       <div class="testimonial">
         <img src="images/client1.jpg" alt="Client 1">
         <h3>Ken Gitonga</h3>
@@ -168,11 +170,12 @@
         <p>"Working with TECHIQs was a pleasure. They understood my requirements and delivered a top-notch solution. I highly recommend their services to anyone in need of a reliable development partner."</p>
       </div>
     </div>
-    <div class="testimonial-navigation">
-      <div class="arrow arrow-left">&larr;</div>
-      <div class="arrow arrow-right">&rarr;</div>
-    </div>
-  </section>
+  </div>
+  <div class="testimonial-navigation">
+    <div class="arrow arrow-left">&larr;</div>
+    <div class="arrow arrow-right">&rarr;</div>
+  </div>
+</section>
   
   <section class="portfolio">
     <h2>Our Portfolio</h2>
@@ -285,7 +288,74 @@
       <h5>&copy; 2023 TECHIQs. All rights reserved. Designed by TechIQs. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></h5>
     </div>
   </footer>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const testimonials = document.querySelectorAll('.testimonial');
+    const testimonialContainer = document.querySelector('.testimonial-container');
+    let currentTestimonial = 0;
+    let totalTestimonials = testimonials.length;
+    const testimonialsPerBlock = 2; // Display 2 testimonials per block
+    let autoplayInterval;
 
-  
+    function showTestimonial(index) {
+      testimonials.forEach((testimonial, i) => {
+        if (i >= index && i < index + testimonialsPerBlock) {
+          testimonial.style.display = 'block';
+        } else {
+          testimonial.style.display = 'none';
+        }
+      });
+    }
+
+    function nextTestimonial() {
+      currentTestimonial = (currentTestimonial + 1) % totalTestimonials;
+      if (currentTestimonial === totalTestimonials - 1) {
+        // If the last testimonial is displayed, show the first testimonial as well
+        showTestimonial(totalTestimonials - 1 - testimonialsPerBlock + 1);
+      } else {
+        showTestimonial(currentTestimonial);
+      }
+    }
+
+    function prevTestimonial() {
+      currentTestimonial = (currentTestimonial - 1 + totalTestimonials) % totalTestimonials;
+      if (currentTestimonial === 0) {
+        // If the first testimonial is displayed, show the last testimonial as well
+        showTestimonial(totalTestimonials - testimonialsPerBlock);
+      } else {
+        showTestimonial(currentTestimonial);
+      }
+    }
+
+    function startAutoplay() {
+      autoplayInterval = setInterval(nextTestimonial, 5000); // Change slide every 5 seconds
+    }
+
+    function stopAutoplay() {
+      clearInterval(autoplayInterval);
+    }
+
+    const prevArrow = document.querySelector('.arrow-left');
+    prevArrow.addEventListener('click', () => {
+      stopAutoplay();
+      prevTestimonial();
+      startAutoplay();
+    });
+
+    const nextArrow = document.querySelector('.arrow-right');
+    nextArrow.addEventListener('click', () => {
+      stopAutoplay();
+      nextTestimonial();
+      startAutoplay();
+    });
+
+    // Show the first two testimonials initially
+    showTestimonial(currentTestimonial);
+
+    // Start autoplay
+    startAutoplay();
+  });
+</script>
+
 </body>
 </html>
